@@ -1,0 +1,21 @@
+export interface IActivity {
+    Id_actividad: number,
+    Objetivo: string,
+    actividad: string,
+    anexo: string,
+    caracteristica: string,
+    ciudad: string,
+    conclucion: string,
+    departamento: string,
+    descripcion: string,
+    factor: string,
+    fecha_actividad: string,
+    fecha_fin_actividad: string,
+    hora_de_inicio: string,
+    hora_finalización: string,
+    nombre_actividad: string,
+    responsable: string,
+    responsables: string,
+    tipo_vinculacion: string,
+    user: string
+}

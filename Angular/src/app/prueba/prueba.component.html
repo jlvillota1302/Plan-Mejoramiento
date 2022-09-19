@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Bootstrap CRUD Data Table for Database with Modal Form</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	
+</head>
+  <body class="modal-open">
+    
+	  <section class="login-block">
+    <div class="container">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h2><b>Administrador</b></h2>
+              </div>
+              <div class="col-sm-6">
+                
+                <button (click)="agregar()" class="btn btn-success adds"  data-toggle="modal" > 
+                  <i class="material-icons">&#xE147;</i>
+                  <span>Agregar Responsable</span>
+                </button>
+                <a
+                  href="#deleteEmployeeModal"
+                  class="btn btn-danger"
+                  data-toggle="modal"
+                  ><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a
+                >
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>
+                  <span class="custom-checkbox">
+                    <input type="checkbox" id="selectAll" />
+                    <label for="selectAll"></label>
+                  </span>
+                </th>
+                <th>Tipo Documento</th>
+                <th>Número Documuento</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Programa</th>
+                <th>Facultad</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              
+              <tr *ngFor="let usuarios of users">
+                <td>
+                  <span class="custom-checkbox">
+                    <input
+                      type="checkbox"
+                      id="checkbox2"
+                      name="options[]"
+                      value="1"
+                    />
+                    <label for="checkbox2"></label>
+                  </span>
+                </td>
+                <td>{{usuarios.Tipo_documento}}</td>
+                <td>{{usuarios.Numero_Documento}}</td>
+                <td>{{usuarios.Nombres}}</td>
+                <td>{{usuarios.Apellidos}}</td>
+                <td>{{usuarios.Programa}}</td>
+                <td>{{usuarios.Facultad}}</td>
+                <td>{{usuarios.Correo}}</td>
+                <td>
+                  <a (click)="usuario_id(usuarios,updateform)" class="edit" data-toggle="modal"
+                    ><i
+                      class="material-icons"
+                      data-toggle="tooltip"
+                      title="Edit"
+                      >&#xE254;</i
+                    ></a
+                  >
+                  <a
+                   (click)="eliminar(usuarios.Id_Usuario)"
+                    class="delete"
+                   
+                    ><i
+                      class="material-icons"
+                      data-toggle="tooltip"
+                      title="Delete"
+                      >&#xE872;</i
+                    ></a
+                  >
+                </td>
+              </tr>
+             
+              
+              
+              
+              
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    <!-- Edit Modal HTML -->
+    <div id="addEmployeeModal"  class="modal fade show"  aria-modal="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form 
+          (ngSubmit)="agregar_usuario(usuarioform)"
+          #usuarioform="ngForm" 
+          >
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar Responsable</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+                (click)="cerrar()"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Tipo de Documento</label>
+                <select  class="form-control tipo_documento" id="exampleFormControlSelect1"  >
+                  <option value="C.C">Cédula de Ciudadanía</option>
+                  <option value="T.I">Tarjeta de Identidad</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Numero de documento</label>
+                <input type="text" class="form-control" id="numero_documento"
+                name="numero_documento" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Nombres</label>
+                <input type="text" class="form-control" id="nombre"
+                name="nombre" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Apellidos</label>
+                <input type="text" class="form-control" id="apellido"
+                name="apellido" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Programa</label>
+                <input type="text" class="form-control" id="programa"
+                name="programa" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Facultad</label>
+                <input type="text" class="form-control" id="facultad"
+                name="facultad" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Correo</label>
+                <input type="text" class="form-control" id="correo"
+                name="correo" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Contraseña</label>
+                <input type="text" class="form-control" id="contrasena"
+                name="contrasena" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Firma Digital</label>
+                <image-upload (uploadFinished)="onUploadFinish($event)">
+                </image-upload>
+                
+                <br />
+                <br />
+                
+              
+              
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+                value="Cancel"
+                (click)="cerrar()"
+              />
+
+              <input type="submit" class="btn btn-success" value="Agregar" />
+              <input type="button" class="btn btn-primary" value="Limpiar" (click)="limpiar(usuarioform)" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Edit Modal HTML -->
+    <div id="editEmployeeModal"  class="modal fade show"  aria-modal="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form  #updateform="ngForm" >
+            <div class="modal-header">
+              <h4 class="modal-title">Editar </h4>
+              
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+                (click)="cerrar()"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Tipo de Documento</label>
+                <input type="text"  class="form-control"  id="tipo_documento1"
+                name="tipo_documento1" value="1" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Numero de documento</label>
+                <input type="text" class="form-control" id="numero_documento1"
+                name="numero_documento1" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Nombres</label>
+                <input type="text" class="form-control" id="nombre1"
+                name="nombre1" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Apellidos</label>
+                <input type="text" class="form-control" id="apellido1"
+                name="apellido1" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Programa</label>
+                <input type="text" class="form-control" id="programa1"
+                name="programa1" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Facultad</label>
+                <input type="text" class="form-control" id="facultad1"
+                name="facultad1" ngModel required />
+              </div>
+              <div class="form-group">
+                <label>Correo</label>
+                <input type="text" class="form-control" id="correo1"
+                name="correo1" ngModel required />
+              </div>
+
+              <div class="form-group">
+                <label>Contraseña</label>
+                <input type="text" class="form-control" id="contrasena"
+                name="contrasena1" ngModel required />
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <input
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+                value="Cancel"
+              />
+              <input (click)="actualizar_usuario(updateform)" type="submit" class="btn btn-info" value="Save" />
+              <input type="button" class="btn btn-primary" value="Limpiar" (click)="limpiar(updateform)" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Delete Modal HTML -->
+    <div id="deleteEmployeeModal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form>
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Employee</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete these Records?</p>
+              <p class="text-warning">
+                <small>This action cannot be undone.</small>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <input
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+                value="Cancel"
+              />
+              <input type="submit" class="btn btn-danger" value="Delete" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</section>
+  </body>
+</html>

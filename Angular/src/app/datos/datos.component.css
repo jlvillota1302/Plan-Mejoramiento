@@ -1,0 +1,66 @@
+body 
+{
+	
+    height: 900px;
+    width: 900px;
+    background: #0c3859 !important;
+	font-family: arial;
+	color: white;
+	margin: 20px auto;
+	border-radius: 50px;
+}
+
+
+#bg{
+	opacity: 0.5;
+    position:fixed;
+    left: 1px;
+    top:0;
+    height: 850px;
+    width: 100%;
+    z-index:-1;
+}
+.form-control {
+	display: inline-block;
+	margin-bottom: 1px; 
+}
+
+#logo img
+{
+	width: 50%;
+	height: 350px;
+}
+
+h2	
+{
+		border-radius: 50px;
+		background-color: #0c3859;
+		color:white;
+		text-align: center;
+		width: 900px;
+		margin: 20px auto;
+}
+
+label
+{
+	display: inline-block; 
+	width: 180px;
+	margin: 20px 0.5px auto 50px;
+}
+
+input	
+{
+	display: inline-block;
+	margin-bottom: auto auto auto 20px; 
+}
+
+.legenda
+{
+	 background-color: #000; 
+	 color: #fff;	 
+}
+
+.form-control
+{
+	width: 400px;
+}

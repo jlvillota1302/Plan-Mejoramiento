@@ -1,0 +1,326 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css"
+    />
+    
+  </head>
+  <body>
+    <section class="login-block">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div
+            class="
+              col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5
+              text-center
+              p-0
+              mt-3
+              mb-2
+            "
+          >
+            <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+              <h2 id="heading" class="test">Actividad</h2>
+              <p>
+                Complete todo el campo del formulario para ir al siguiente paso
+              </p>
+              <form id="msform" action=""  #actividadform="ngForm"  (ngSubmit)="agregar_actividad(actividadform)" >
+                <!-- progressbar -->
+                <ul id="progressbar">
+                  <li class="active" id="actividad">
+                    <strong>Actividad</strong>
+                  </li>
+                  <li id="personal"><strong>Tiempo</strong></li>
+                  <li id="descript"><strong>Descripcion</strong></li>
+                  <li id="payment"><strong>evidencia</strong></li>
+                  <li id="confirm"><strong>Finish</strong></li>
+                </ul>
+                <div class="progress">
+                  <div
+                    class="
+                      progress-bar progress-bar-striped progress-bar-animated
+                    "
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <br />
+                <!-- fieldsets -->
+                <fieldset class="f1">
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-7">
+                        <h2 class="fs-title">INFORME DE ACTIVIDAD</h2>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="steps">Paso 1 - 4</h2>
+                      </div>
+                    </div>
+                    <label class="fieldlabels">Nombre actividad</label>
+                    <input
+                      type="text"
+                      name="nombre_actividad"
+                      placeholder="Nombre actividad"
+                      ngModel required
+                    />
+                    
+                    <label class="fieldlabels">Tipo de Vinculación</label>
+                    <select  class="form-control tipo_documento" id="exampleFormControlSelect1"  >
+                      <option value="TC">Tiempo Completo</option>
+                      <option value="TP">Tiempo Parcial</option>
+                    </select>
+                    <br>
+                    <label class="fieldlabels">Departamento</label>
+                    <br> 
+                    
+                        <select  class="form-control dep" id="exampleFormControlSelect1" (change)="onChange()" >
+                            <option [value]="departamento.DepCodigo" *ngFor="let departamento of departamentos" value="aaa">{{departamento.DepNombre}}</option>
+                          </select>
+                          <br>
+                          <label class="fieldlabels">Ciudad</label>
+                          <select  class="form-control cius" id="exampleFormControlSelect1" (change)="onChange()" >
+                            <option [value]="ciudad.CiuNombre" *ngFor="let ciudad of filtradas" value="aaa">{{ciudad.CiuNombre}}</option>
+                          </select>
+                          <br>
+                         
+
+                    <div *ngIf="condicion != 'unico'">
+                      <label class="fieldlabels">Responsables</label>
+                      <ng-multiselect-dropdown
+                        [settings]="dropdownSettings"
+                        [data]="dropdownList"
+                        placeholder="Seleccione Responsable"
+                        class="responsables"
+                        [(ngModel)]="selected"
+                        name="first"
+                      >
+                      </ng-multiselect-dropdown>
+                    </div>
+                    <div *ngIf="condicion == 'unico'">
+                        <label class="fieldlabels">Responsable</label>
+                        <br>
+                        <select class="form-control unico_responsable" id="exampleFormControlSelect1">
+                          <option [value]="responsables.Id_Usuario" *ngFor="let responsables of users" value="aaa">{{responsables.Nombres}} {{responsables.Apellidos}}</option>
+                            
+                          </select>
+                    </div>
+                  </div>
+                  <input
+                    type="button"
+                    name="next"
+                    class="next action-button"
+                    value="Siguiente"
+                    (click)="contar()"
+                  />
+                </fieldset>
+                <fieldset class="f2">
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-7">
+                        <h2 class="fs-title">TIEMPO DE ACTIVIDAD</h2>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="steps">Paso 2 - 4</h2>
+                      </div>
+                    </div>
+                    
+                    <label class="fieldlabels">Fecha inicio de actividad</label>
+                    <input
+                    type="date"
+                      name="fecha_actividad"
+                      placeholder="Fecha actividad"
+                      ngModel
+                    />
+                    <label class="fieldlabels">Fecha fin actividad</label>
+                    <input
+                    type="date"
+                      name="fecha_fin_actividad"
+                      placeholder="fecha fin actividad"
+                      ngModel
+                    />
+                    <label class="fieldlabels">Hora de inicio</label>
+                    <input
+                    type="time"
+                      name="hora_de_inicio"
+                      placeholder="Hora de inicio"
+                      ngModel
+                    />
+                    <label class="fieldlabels">Hora finalización</label>
+                    <input
+                    type="time"
+                      name="hora_finalización"
+                      placeholder="Hora finalización"
+                      ngModel
+                    />
+                  </div>
+                  <input
+                    type="button"
+                    name="next"
+                    class="next action-button"
+                    value="Siguiente"
+                    (click)="contar()"
+                  />
+                  <input
+                    type="button"
+                    name="previous"
+                    class="previous action-button-previous"
+                    value="Atras"
+                    (click)="descontar()"
+                  />
+                </fieldset>
+                <fieldset class="f3">
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-7">
+                        <h2 class="fs-title">DESCRIPCION DE LA ACTIVIDAD</h2>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="steps">Paso 3 - 4</h2>
+                      </div>
+                    </div>
+                    <label class="fieldlabels">Factor</label>
+                    <select  class="form-control deps" id="exampleFormControlSelect1" (change)="changefactor()" >
+                      <option [value]="factores.codfactor" *ngFor="let factores of factor" value="aaa">{{factores.nomfactor}}</option>
+                    </select>
+                    <br>
+                    <label class="fieldlabels">Caracteristica</label>
+                    <select  class="form-control car" id="exampleFormControlSelect1" (change)="changecaracter()" >
+                      <option [value]="ciudad.codcaracteristica" *ngFor="let ciudad of filtrofactor" value="aaa">{{ciudad.nomcaracteristica}}</option>
+                    </select>
+                    <br>
+                    <label class="fieldlabels">Actividad</label>
+                    <select  class="form-control act" id="exampleFormControlSelect1" >
+                      <option [value]="ciudad.codactividad" *ngFor="let ciudad of filtroactividad" value="aaa">{{ciudad.nomactividad}}</option>
+                    </select>
+                    <br>
+
+                    <label class="fieldlabels">Objetivo</label>
+                    <input type="text" name="Objetivo" placeholder="Objetivo" ngModel />
+                    <label class="fieldlabels"
+                      >Descripcion de la actividad</label
+                    >
+                    <textarea name="descripcion" rows="10" cols="40" ngModel></textarea>
+                    <label class="fieldlabels"
+                      >Conclusiones de la actividad</label
+                    >
+                    <textarea name="conclucion" rows="10" cols="40" ngModel></textarea>
+                   
+                  </div>
+                  <input
+                    type="button"
+                    name="next"
+                    class="next action-button"
+                    value="Siguiente"
+                    (click)="contar()"
+                  />
+                  <input
+                    type="button"
+                    name="previous"
+                    class="previous action-button-previous"
+                    value="Atras"
+                    (click)="descontar()"
+                  />
+                </fieldset>
+                <fieldset class="f4">
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-7">
+                        <h2 class="fs-title">EVIDENCIA DE ACTIVIDAD</h2>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="steps">Paso 4 - 4</h2>
+                      </div>
+                    </div>
+                    <label class="fieldlabels">Control de Anexos</label>
+                    <div class="row ">
+                      <div class="col-md-4 "><input type="button" value="Agregar Anexo" class=" colorboton" (click)="AgregarCampos()"></div>
+                      <div class="col-md-4"> <input type="button" value="Eliminar Anexo" class="colorboton" (click)="eliminarcampo()"> </div>
+                    </div>
+                    <div id="campos">
+                    </div>
+                    <br>
+                    
+                    <label class="fieldlabels">Imagenes</label>
+                    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                      <ngx-dropzone-label>
+                        <div>
+                          <h2>Arrastrar Imagenes</h2>
+                        </div>
+                      </ngx-dropzone-label>
+                      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-image-preview>
+                    </div>
+                    
+                    
+                    <input
+                    type="button"
+                    name="previous"
+                    class="previous action-button-previous"
+                    value="Atras"
+                    
+                  />
+                  </div>
+                  <input
+                    type="submit"
+                   
+                    name="next"
+                    class="next action-button"
+                    value="Guardar"
+                  />
+                  <input
+                    type="button"
+                    name="previous"
+                    class="previous action-button-previous"
+                    value="Atras"
+                    (click)="descontar()"
+                  />
+                </fieldset>
+                <fieldset class="f5">
+                  <div class="form-card">
+                    <div class="row">
+                      <div class="col-7">
+                        <h2 class="fs-title">Finish:</h2>
+                      </div>
+                      <div class="col-5">
+                        <h2 class="steps">Paso 4 - 4</h2>
+                      </div>
+                    </div>
+                    <br /><br />
+                    <h2 class="purple-text text-center">
+                      <strong>SUCCESS !</strong>
+                    </h2>
+                    <br />
+                    <div class="row justify-content-center">
+                      <div class="col-3">
+                        <img
+                          src="https://i.imgur.com/GwStPmg.png"
+                          class="fit-image"
+                        />
+                      </div>
+                    </div>
+                    <br /><br />
+                    <div class="row justify-content-center">
+                      <div class="col-7 text-center">
+                        <h5 class="purple-text text-center">
+                          You Have Successfully Signed Up
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

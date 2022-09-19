@@ -1,0 +1,304 @@
+-- Table: "Actividades"
+
+-- DROP TABLE "Actividades";
+
+CREATE TABLE "Actividades"
+(
+  "Id_actividad" serial NOT NULL,
+  "Objetivo" character varying(1000),
+  actividad character varying(1000),
+  anexo character varying(600),
+  caracteristica character varying(600),
+  ciudad character varying(600),
+  conclucion character varying(1000),
+  departamento character varying(600),
+  descripcion text,
+  factor character varying(600),
+  fecha_actividad character varying(600),
+  fecha_fin_actividad character varying(600),
+  hora_de_inicio character varying(600),
+  "hora_finalización" character varying(600),
+  nombre_actividad character varying(600),
+  responsable character varying(600),
+  responsables character varying(600),
+  tipo_vinculacion character varying(600),
+  "user" character varying(600),
+  CONSTRAINT "Actividades_pkey" PRIMARY KEY ("Id_actividad")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "Actividades"
+  OWNER TO postgres;
+
+
+/////////////
+
+-- Table: "Usuarios"
+
+-- DROP TABLE "Usuarios";
+
+CREATE TABLE "Usuarios"
+(
+  "Tipo_documento" character varying(50),
+  "Numero_Documento" character varying(30),
+  "Nombres" character varying(100),
+  "Apellidos" character varying(100),
+  "Programa" integer,
+  "Facultad" integer,
+  "Correo" character varying(100),
+  "Password" character varying,
+  "Id_Usuario" serial NOT NULL,
+  CONSTRAINT "Usuarios_pkey" PRIMARY KEY ("Id_Usuario")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "Usuarios"
+  OWNER TO postgres;
+
+////
+-- Table: imagen
+
+-- DROP TABLE imagen;
+
+CREATE TABLE imagen
+(
+  routa json
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE imagen
+  OWNER TO postgres;
+
+
+
+//// funciones 
+
+
+-- Function: actualizar_usuario_id(character varying, character varying, character varying, character varying, integer, integer, character varying, character varying, integer)
+
+-- DROP FUNCTION actualizar_usuario_id(character varying, character varying, character varying, character varying, integer, integer, character varying, character varying, integer);
+
+CREATE OR REPLACE FUNCTION actualizar_usuario_id(
+    td character varying,
+    nd character varying,
+    n character varying,
+    a character varying,
+    p integer,
+    f integer,
+    c character varying,
+    ps character varying,
+    id integer)
+  RETURNS boolean AS
+$BODY$
+BEGIN
+	UPDATE "Usuarios"
+   SET "Tipo_documento"=TD, "Numero_Documento"=ND, "Nombres"=N, "Apellidos"=A, 
+       "Programa"=P, "Facultad"=F, "Correo"=C, "Password"=PS
+ WHERE "Id_Usuario"=id;
+
+	 RETURN true;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION actualizar_usuario_id(character varying, character varying, character varying, character varying, integer, integer, character varying, character varying, integer)
+  OWNER TO postgres;
+
+
+
+////////////
+
+-- Function: crear_usuario(character varying, character varying, character varying, character varying, integer, integer, character varying, character varying)
+
+-- DROP FUNCTION crear_usuario(character varying, character varying, character varying, character varying, integer, integer, character varying, character varying);
+
+CREATE OR REPLACE FUNCTION crear_usuario(
+    td character varying,
+    nd character varying,
+    n character varying,
+    a character varying,
+    p integer,
+    f integer,
+    c character varying,
+    ps character varying)
+  RETURNS boolean AS
+$BODY$
+BEGIN
+	INSERT INTO "Usuarios"(
+            "Tipo_documento", "Numero_Documento", "Nombres", "Apellidos", 
+            "Programa", "Facultad", "Correo", "Password")
+    VALUES (TD, ND, N, A, 
+            P, F, C, PS);
+
+	 RETURN true;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION crear_usuario(character varying, character varying, character varying, character varying, integer, integer, character varying, character varying)
+  OWNER TO postgres;
+
+
+////
+-- Function: eliminar_actividad_id(integer)
+
+-- DROP FUNCTION eliminar_actividad_id(integer);
+
+CREATE OR REPLACE FUNCTION eliminar_actividad_id(id integer)
+  RETURNS boolean AS
+$BODY$
+BEGIN
+	DELETE FROM "Actividades"
+	 WHERE "Id_actividad"=id;
+	 RETURN true;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION eliminar_actividad_id(integer)
+  OWNER TO postgres;
+
+
+///
+
+-- Function: eliminar_usuario_id(integer)
+
+-- DROP FUNCTION eliminar_usuario_id(integer);
+
+CREATE OR REPLACE FUNCTION eliminar_usuario_id(id integer)
+  RETURNS boolean AS
+$BODY$
+BEGIN
+	DELETE FROM "Usuarios"
+	 WHERE "Id_Usuario"=id;
+	 RETURN true;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION eliminar_usuario_id(integer)
+  OWNER TO postgres;
+
+
+
+///
+
+-- Function: listar_actividades()
+
+-- DROP FUNCTION listar_actividades();
+
+CREATE OR REPLACE FUNCTION listar_actividades()
+  RETURNS SETOF json AS
+$BODY$
+BEGIN
+
+    RETURN QUERY  SELECT to_json(a) FROM (SELECT * FROM "Actividades" WHERE "responsables"='') a;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION listar_actividades()
+  OWNER TO postgres;
+
+
+  ///
+
+
+  -- Function: listar_actividades_id(integer)
+
+-- DROP FUNCTION listar_actividades_id(integer);
+
+CREATE OR REPLACE FUNCTION listar_actividades_id(id integer)
+  RETURNS SETOF json AS
+$BODY$
+BEGIN
+
+    RETURN QUERY  SELECT to_json(a) FROM (SELECT* FROM "Actividades" WHERE "Id_actividad"=id) a;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION listar_actividades_id(integer)
+  OWNER TO postgres;
+
+
+
+/////////////
+
+
+-- Function: listar_usuarios()
+
+-- DROP FUNCTION listar_usuarios();
+
+CREATE OR REPLACE FUNCTION listar_usuarios()
+  RETURNS SETOF json AS
+$BODY$
+BEGIN
+
+    RETURN QUERY  SELECT to_json(a) FROM (SELECT* FROM "Usuarios") a;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION listar_usuarios()
+  OWNER TO postgres;
+
+
+
+
+///
+
+-- Function: listar_usuarios_id(integer)
+
+-- DROP FUNCTION listar_usuarios_id(integer);
+
+CREATE OR REPLACE FUNCTION listar_usuarios_id(IN id integer)
+  RETURNS SETOF json AS
+$BODY$
+BEGIN
+
+    RETURN QUERY  SELECT to_json(a) FROM (SELECT* FROM "Usuarios" WHERE "Id_Usuario"=id) a;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION listar_usuarios_id(integer)
+  OWNER TO postgres;
+
+
+
+///
+
+
+-- Function: sesion_usuario(character varying, character varying)
+
+-- DROP FUNCTION sesion_usuario(character varying, character varying);
+
+CREATE OR REPLACE FUNCTION sesion_usuario(
+    correo character varying,
+    contrasena character varying)
+  RETURNS boolean AS
+$BODY$
+BEGIN
+	if exists(SELECT * FROM "Usuarios"WHERE "Correo"=correo AND "Password"=contrasena) THEN 
+	return true;
+	else
+	return false;
+	end if;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION sesion_usuario(character varying, character varying)
+  OWNER TO postgres;

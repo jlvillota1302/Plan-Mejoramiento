@@ -1,0 +1,54 @@
+body{
+    background-color:white;
+    color: white;
+    width: 80%;
+	margin: 50px auto 50px auto;
+    opacity: 0.9;
+}
+html {
+    opacity: 0.9;
+}
+header {
+    width: absolute;
+    background-color: white;
+}
+.hand-pointer {
+    cursor: pointer;
+}
+#bg{
+    position:fixed;
+    left: 1px;
+    top:0;
+    height: 850px;
+    width: 100%;
+    z-index:-1;
+}
+
+.form {
+    position: absolute;
+    display: inline-flex;
+    width: 300px;   
+}
+.thumbnail {
+    border: 10px solid #000;
+    width: 200px;
+    display: inherit;
+    padding: 20px;
+    margin: 20px 20px;
+
+}
+h2 {
+    color:white;
+    text-align: center;
+}
+.table{
+    color: white;
+    background: cadetblue;
+    text-align: center;
+   
+}
+.container {
+    background:#030F5A;
+    height: 100%;
+  
+}

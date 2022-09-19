@@ -1,0 +1,41 @@
+body {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    background: #0c3859 !important;
+}
+.legenda {
+    background-color: #0c3859 ; 
+	 color: #fff;
+    text-align: center;
+}
+#bg{
+    position:fixed;
+    left: 1px;
+    top:0;
+    height: 850px;
+    width: 100%;
+    z-index:-1;
+}
+.container {
+    position:relative;
+    height: 370px;
+    width: 670px;
+    background: #60a3bc;
+    padding: 30px;
+    text-align: center;
+}
+
+.row {
+    background-color: blue;
+}
+
+.img {
+    max-height: 200px;
+}
+.btn {
+    width: 30%;
+    background: #0c3859 !important;
+    color: white !important;
+}
+
